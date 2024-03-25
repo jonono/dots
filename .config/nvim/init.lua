@@ -16,6 +16,24 @@ local plugins = {
   { "ellisonleao/gruvbox.nvim", priority = 1000 , config = true},
   { "nvim-telescope/telescope.nvim", branch = '0.1.x', dependencies = { 'nvim-lua/plenary.nvim' } },
   { 'nvim-lualine/lualine.nvim' },
+  {
+    "epwalsh/obsidian.nvim",
+    version = "*",
+    lazy = true,
+    ft = "markdown",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "hrsh7th/nvim-cmp",
+    },
+    opts = {
+      workspaces = {
+        {
+          name = "personal",
+          path = "~/notes",
+        },
+      },
+    },
+  },
 }
 
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
@@ -25,7 +43,7 @@ if not vim.loop.fs_stat(lazypath) then
     "clone",
     "--filter=blob:none",
     "https://github.com/folke/lazy.nvim.git",
-    "--branch=stable", -- latest stable release
+    "--branch=stable",
     lazypath,
   })
 end
@@ -35,6 +53,14 @@ require("lazy").setup(plugins, opts)
 -- colours
 vim.o.background = "dark"
 vim.cmd([[colorscheme gruvbox]])
+
+-- treesitter
+require("nvim-treesitter.configs").setup({
+  ensure_installed = { "markdown", "markdown_inline", ... },
+  highlight = {
+    enable = true,
+  },
+})
 
 -- lualine
 require('lualine').setup({
@@ -83,3 +109,4 @@ vim.o.formatoptions = qrn1
 vim.o.colorcolumn = 85
 vim.o.relativenumber = true
 vim.o.cursorline = true
+vim.opt.conceallevel = 1
