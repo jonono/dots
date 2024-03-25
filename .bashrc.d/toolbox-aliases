@@ -1,1 +1,0 @@
-alias vim='SHELL=/bin/zsh toolbox run --container neovim nvim ${1}'
